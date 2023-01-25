@@ -2,54 +2,56 @@ import React, { useEffect, useState } from "react";
 import { useNavigate,Link } from "react-router-dom";
 
 function NewsComp() {
-  // const [country, setCountry] = useState("us");
-  // const [category, setCategory] = useState("business");
+  const [country, setCountry] = useState("us");
+  const [category, setCategory] = useState("business");
 
   const [news, setNews] = useState([]);
   let navigate = useNavigate(); 
 
-  // useEffect(() => {
 
-
-  //   fetch(
-  //     ` https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=f1311508f16040f7ae5617372ab377ff`
-  //   )
-  //     .then((res) => res.json())
-  //     .then((res) => {
-  //       console.log(res);
-  //       setNews(res.articles);
-  //     })
-  //     .catch((err) => console.log(err));
-  // }, [country,category]);
-
+ 
   useEffect(() => {
-    
-    const options = {
-      method: 'GET',
-      headers: {
-        'X-BingApis-SDK': 'true',
-        'X-RapidAPI-Key': '2f99074611msh9768442af2730e9p161fb4jsn8e331777f95d',
-        'X-RapidAPI-Host': 'bing-news-search1.p.rapidapi.com'
-      }
-    };
-    
-    fetch('https://bing-news-search1.p.rapidapi.com/news?safeSearch=Off&textFormat=Raw', options)
-      .then(response => response.json())
+    fetch(`https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=f1311508f16040f7ae5617372ab377ff`)
+    .then(response => response.json())
       .then(res =>{
         console.log(res)
-        setNews(res.value);
+        setNews(res.articles);
       } )
 
       .catch(err => console.error(err));
 
+  },[category,country])
 
-  }, [])
+
+
+  // useEffect(() => {
+    
+  //   const options = {
+  //     method: 'GET',
+  //     headers: {
+  //       'X-BingApis-SDK': 'true',
+  //       'X-RapidAPI-Key': '2f99074611msh9768442af2730e9p161fb4jsn8e331777f95d',
+  //       'X-RapidAPI-Host': 'bing-news-search1.p.rapidapi.com'
+  //     }
+  //   };
+    
+  //   fetch('https://bing-news-search1.p.rapidapi.com/news?safeSearch=Off&textFormat=Raw', options)
+  //     .then(response => response.json())
+  //     .then(res =>{
+  //       console.log(res)
+  //       setNews(res.value);
+  //     } )
+
+  //     .catch(err => console.error(err));
+
+
+  // }, [])
   
 
 
   return (
     <div>
-      {/* <div className="news-selector">
+      <div className="news-selector">
         <div>
           <select 
            value={country}
@@ -70,7 +72,7 @@ function NewsComp() {
             <option value="general">general</option>
           </select>
         </div>
-      </div> */}
+      </div>
 
       {news.length < 0 && <h3> Not found</h3>}
       <div className="news-container">
@@ -79,8 +81,8 @@ function NewsComp() {
             <div className="news-card" key={ind}>
              
               <div className="news-card-content">
-                <h3>{ele.name} </h3>
-                <img className="newsImg" src={ele.image.thumbnail.contentUrl} />
+                <h3>{ele.title} </h3>
+                <img className="newsImg" src={ele.urlToImage} />
                 <p> {ele.description}</p>
               </div>
               <button className="viewmore-btn" onClick={()=> navigate('/viewnews',{state:ele})}> More

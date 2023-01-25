@@ -9,10 +9,11 @@ function ViewNews() {
     <div>
        
       <div className="news-detail">
-        <h2> {state.name}</h2>
-        <img src={state.image.thumbnail.contentUrl} />
-        <p> {state.description}</p>
+        <h2> {state.title}</h2>
+        <img src={state.urlToImage} />
+        <p> {state.content}</p>
       </div>
+      
       <button className="back-btn" onClick={() => navigate(-1)}> BACK</button>
     </div>
   );
